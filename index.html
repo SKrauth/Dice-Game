@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Yahtzee</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="jquery.js"></script>
+</head>
+<body>
+  <div class="container">
+
+<!--This table holds the dice in place.-->
+   <tb class="dice-in-play table table-hover">
+       <tr class="in-line dice-to-roll">
+          <td>
+              <div>Roll</div>
+          </td>
+           <td>
+               <div id="dice-0" class="in-line dice-number"></div>
+           </td>
+           <td>
+               <div id="dice-1" class="in-line dice-number"></div>
+           </td>
+           <td>
+               <div id="dice-2" class="in-line dice-number"></div>
+           </td>
+           <td>
+               <div id="dice-3" class="in-line dice-number"></div>
+           </td>
+           <td>
+               <div id="dice-4" class="in-line dice-number"></div>
+           </td>
+           <td>
+               <button id="roll" class="btn btn-primary">Roll</button>
+            </td>
+       </tr>
+       <br>
+       <tr class="dice-to-keep">
+            <td>
+                <div>Keep</div>
+            </td>
+           <td>
+               <div id="dice-5" class="in-line dice-number"></div>
+           </td>
+           <td>
+               <div id="dice-6" class="in-line dice-number"></div>
+           </td>
+           <td>
+               <div id="dice-7" class="in-line dice-number"></div>
+           </td>
+           <td>
+               <div id="dice-8" class="in-line dice-number"></div>
+           </td>
+           <td>
+               <div id="dice-9" class="in-line dice-number"></div>
+           </td>
+           <td>
+               <button id="score" class="btn btn-success">Placeholder?</button>
+            </td>
+       </tr>
+   </tb>
+   
+<!--   This list holds the score imput. Might be a better way to build this.  -->
+   <ul>
+       <li>
+           <label for="aces">Aces:</label>
+           <input type="text" id="score-0" class="form-control score" name="score[0]"> 
+        </li>
+       <li>
+           <label for="twos">Twos:</label>
+           <input type="text" id="score-1" class="form-control score" name="score[1]">
+        </li>
+       <li>
+           <label for="threes">Threes:</label>
+           <input type="text" id="score-2" class="form-control score" name="score[2]">
+        </li>
+       <li>
+           <label for="fours">Fours:</label>
+           <input type="text" id="score-3" class="form-control score" name="score[3]">
+        </li>
+       <li>
+           <label for="fives">Fives:</label>
+           <input type="text" id="score-4" class="form-control score" name="score[4]">
+        </li>
+       <li>
+           <label for="sixes">Sixes:</label>
+           <input type="text" id="score-5" class="form-control score" name="score[5]">
+        </li>
+       <li>
+           <label for="three-of-a-kind">Three of a Kind:</label>
+           <input type="text" id="score-6" class="form-control score" name="score[6]">
+        </li>
+       <li>
+           <label for="four-of-a-kind">Four of Kind:</label>
+           <input type="text" id="score-7" class="form-control score" name="score[7]">
+        </li>
+       <li>
+           <label for="full-house">Full House:</label>
+           <input type="text" id="score-8" class="form-control score" name="score[8]">
+        </li>
+       <li>
+           <label for="small-straight">Small Straight:</label>
+           <input type="text" id="score-9" class="form-control score" name="score[9]">
+        </li>
+       <li>
+           <label for="large-straight">Large Straight:</label>
+           <input type="text" id="score-10" class="form-control score" name="score[10]">
+        </li>
+       <li>
+           <label for="yahtzee">Yahtzee:</label>
+           <input type="text" id="score-11" class="form-control score" name="score[11]">
+        </li>
+       <li>
+           <label for="chance">Chance:</label>
+           <input type="text" id="score-12" class="form-control score" name="score[12]">
+        </li>
+       <li>
+           <h4>Total: </h4>
+           <div id="score-13"></div>
+        </li>
+        <li>
+            <button id="next-round" class="btn btn-primary">Next Round!</button>
+        </li>
+   </ul>
+   
+   
+   </div>
+</body>
+</html>
