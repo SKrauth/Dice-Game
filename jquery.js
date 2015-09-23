@@ -50,18 +50,20 @@ $(document).ready(function(){
     
 //This is the click function for the score card. Will eventually need a round counter so that after 13 rounds it will ask to reset the game.
     $("#next-round").click(function(){
-        
+        var scoreTotal = 0
 //This takes the imput and stores it in our array.        
         jQuery.each( score, function( i, val ) {
             score[i] = $("#" + scoreCount[i]).val();
+            console.log($("#" + scoreCount[i].val()));
+//            scoreTotal = scoreTotal + score[i];
             return ( scoreCount !== "score-12" );
         });
         
 //This is supposed to add the score of the array parts, not there yet. Missing something...
-        score[13] = score[0] + score[1] + score[2] + score[3] + score[4] + score[5] + score[6] + score[7] + score[8] + score[9] + score[10] + score[11] + score[12];
+//        var scoreTotal = score[0] + score[1] + score[2] + score[3] + score[4] + score[5] + score[6] + score[7] + score[8] + score[9] + score[10] + score[11] + score[12];
         
 //Outputs total score to bottom of the score sheet.
-        $("#score-13").text(score[13]);
+        $("#score-total").text(scoreTotal);
         
 //Resets dice array for a new round, removes "keeps"
         dice = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
