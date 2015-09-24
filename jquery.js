@@ -1,26 +1,45 @@
+/*
+Table of Contents
+1. Global Variables
+2. Global Functions
+3. Dice roll mechanics
+4. Scoring mechanics
+*/
+
+
+// 1. Global Variables
+
+
 $(document).ready(function(){
 //This array holds the value of the dice. Defaults to 0 for keeps, and 1 for rolls.
     var dice = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
 
 //Array to hold the dice id's, makes placing the dice in the correct div easier
-    var diceCount = ["dice-0", "dice-1", "dice-2", "dice-3", "dice-4", "dice-5", "dice-6", "dice-7", "dice-8", "dice-9"];
+    var diceID = ["dice-0", "dice-1", "dice-2", "dice-3", "dice-4", "dice-5", "dice-6", "dice-7", "dice-8", "dice-9"];
     
 //Holds scores as they are input.
     var score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     
 //Holds the score id's, for score placement.
-    var scoreCount =["score-0", "score-1", "score-2", "score-3", "score-4", "score-5", "score-6", "score-7", "score-8", "score-9", "score-10", "score-11", "score-12", "score-13"];
+    var scoreID =["score-0", "score-1", "score-2", "score-3", "score-4", "score-5", "score-6", "score-7", "score-8", "score-9", "score-10", "score-11", "score-12", "score-13"];
 
-//helps keep track of roll count
+//helps keep track of game pacing. Roll total and round total to end game.
     var rollLimit = 1;
     var roundTotal = 0;
+    
+//Boolean value for Yahtzee bonus
+    var IsThereAlreadyAYahtzee = 0;
+    
+    
+// 2. Global Functions
+    
 
 //Outputs the dice to display.
     var diceOutput = function(){
-            $.each( diceCount, function( i, val ) {
-                $("#" + diceCount[i]).text(dice[i]);
+            $.each( diceID, function( i, val ) {
+                $("#" + diceID[i]).text(dice[i]);
 
-                return ( diceCount !== "dice-9" );
+                return ( diceID !== "dice-9" );
             });    
     };
 
@@ -35,85 +54,61 @@ $(document).ready(function(){
             }); 
     };
     
+//Contains normal turn functions, most importantly keeps track of, and displays, roll count 
+    var TakeATurn = function(){
+        if (rollLimit < 4){
+            diceRoll();
+            diceOutput();
+            rollLimit++;
+            $("#roll").text("Roll #" + rollLimit);
+        };  
+
+        if (rollLimit === 4) {
+            $("#roll").text("Out of Rolls");
+            $("#roll-all").text("Out of rolls")
+        };
+    };
     
+//This function sorts the dice, for scoring purposes.
+    var SortDice = function(){
+        dice.sort(function(a,b){return b-a})
+    };
+    
+//This function adds the dice together for scoring purposes.
+    var diceSum = function(){
+        var addDice = 0
+        $.each(dice, function(i, val){
+            addDice = addDice + dice[i];
+            return ( i !== 9);
+        });
+        return(addDice);
+    };
+    
+//Yahtzee bonus check.
+    var YAHTZEEBonus = function(){
+        if (IsThereAlreadyAYahtzee > 0) {
+            if (dice[0] === dice[1] && dice[0] === dice[2] && dice[0] === dice[3] && dice[0] === dice[4]){
+                alert("YAHTZEE Bonus! 100 extra points!");
+                score[13] = score[13] + 100;
+            }
+        }
+    };
+    
+// 3. Dice Roll Mechanics    
+    
+
 //Runs roll program on button click
     $("#roll").click(function(){
-        if (rollLimit < 4){
-            diceRoll();
-            diceOutput();
-
-//Changes button to let user know what roll they are on
-            rollLimit++;
-            $("#roll").text("Roll #" + rollLimit);
-        };  
-
-//Changes button text to let user know they are out of rolls
-        if (rollLimit === 4) {
-            $("#roll").text("Out of Rolls");
-            $("#roll-all").text("Out of rolls")
-        };
-    
+        TakeATurn();    
     });
     
-//This takes the keep dice and rolls all of them.
+//This removes the keep dice and rolls all of them.
     $("#roll-all").click(function(){
         dice = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
-        
-        if (rollLimit < 4){
-            diceRoll();
-            diceOutput();
-
-//Changes button to let user know what roll they are on
-            rollLimit++;
-            $("#roll").text("Roll #" + rollLimit);
-        };  
-
-//Changes button text to let user know they are out of rolls
-        if (rollLimit === 4) {
-            $("#roll").text("Out of Rolls");
-            $("#roll-all").text("Out of rolls")
-        };
+        TakeATurn();
     });
-    
-//This is the click function for the score card. Will eventually need a round counter so that after 13 rounds it will ask to reset the game.
-    $("#next-round").click(function(){
 
-//This takes the imput and stores it in our array.        
-        jQuery.each( score, function( i, val ) {
-            score[i] = $("#" + scoreCount[i]).val();
-            return ( scoreCount !== "score-12" );
-        });
-
-//This is supposed to add the score of the array parts, not there yet. Missing something...
-//        var scoreTotal = score[0] + score[1] + score[2] + score[3] + score[4] + score[5] + score[6] + score[7] + score[8] + score[9] + score[10] + score[11] + score[12];
-
-//Outputs total score to bottom of the score sheet.
-//            $("#score-total").text(scoreTotal);
-
-//Resets dice array for a new round, removes "keeps"
-        dice = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
-
-//Resets dice display for a new round
-        jQuery.each( diceCount, function( i, val ) {
-            $("#" + diceCount[i]).text(" ");
-
-            return ( diceCount !== "dice-9" );
-        });
-
-//Resets roll limit so the roll button can be clicked in the new round
-        rollLimit = 1;
-        $("#roll").text("Roll");
-        
-        
-
-        roundTotal++;
-        if (roundTotal <= 13){
-            alert ("Thanks for playing!")
-//Code for total output goes here!!!
-        }
-    });
-    
-//This very WET code holds the current version of our keep device. Needs DRYing and possibly a reversable function. Need rules clarifiction on if kept dice can be un-kept.
+//This very WET code holds the current version of our keep device. Needs DRYing!
     $("#dice-0").click(function(){
         if (dice[0] > 0){
             dice[5]=dice[0];
@@ -197,4 +192,43 @@ $(document).ready(function(){
         }
     });    
 
+
+    
+
+// 4. Scoring Mechanics
+
+    
+        
+//This is the click function for the score card. Will eventually need a round counter so that after 13 rounds it will ask to reset the game.
+    $("#next-round").click(function(){
+        
+//This takes the imput and stores it in our array. This should become obsolete upon score-check installation!   
+        jQuery.each( score, function( i, val ) {
+            score[i] = $("#" + scoreID[i]).val();
+            return ( scoreID !== "score-12" );
+        });
+
+//Resets dice array for a new round, removes "keeps"
+        dice = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
+
+//Resets dice display for a new round. I wish there was a way to re-write this so that I could use diceOutput for DRYness.
+        jQuery.each( diceID, function( i, val ) {
+            $("#" + diceID[i]).text(" ");
+
+            return ( diceID !== "dice-9" );
+        });
+
+//Resets roll limit and roll buttons so they can be clicked in the new round
+        rollLimit = 1;
+        $("#roll").text("Roll");
+        $("#roll-all").text("Roll all");
+        
+//This keeps track of the round limits and ends the game when it is time.
+        roundTotal++;
+        if (roundTotal >= 13){
+            alert ("Thanks for playing!")
+//Code for total output goes here!!!
+        }
+    });
+    
 });
