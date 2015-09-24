@@ -193,11 +193,90 @@ $(document).ready(function(){
     });    
 
 
-    
-
 // 4. Scoring Mechanics
 
     
+    var upperSection = function(checkNum){
+        var score = 0;
+        SortDice();
+        YAHTZEEBonus();
+        $.each( dice, function(i, val){
+            if(dice[i] === checkNum){
+                score = score + checkNum;
+            };
+        });
+        return(score);
+    };
+    
+    var threeOfAKind = function(){
+        var score = 0;
+        SortDice();
+        YAHTZEEBonus();
+        $.each(dice, function(i, val){
+            if(dice[i] === dice[1 + 1] && dice[i] === dice[i + 2]){
+                score = diceSum();
+            };
+            
+            return(i !== 2);
+        });
+        return(score);    
+    };
+    
+    var fourOfAKind = function(){
+        var score = 0;
+        SortDice();
+        YAHTZEEBonus();
+        if (dice[0] === dice[1]){
+            if (dice[0] === dice[2] && dice[0] === dice[3]){
+                score = diceSum();
+            };
+        }
+        else if(dice[1] === dice[2]){
+            if (dice[1] === dice[3] && dice[1] === dice[4]){
+                score = diceSum();
+            };
+        };
+        return(score);
+    };
+    
+    var fullHouse = function(){
+        var score = 0;
+        SortDice();
+        YAHTZEEBonus();
+        if (dice[0] === dice[1] && dice[3] === dice[4]){
+            if(dice[0] === dice[2] || dice[2] === dice[3]){
+                score = 25;
+            };
+        };
+        return(score);
+    };
+    
+    var largeStraight = function(){
+        var score = 0;
+        SortDice();
+        YAHTZEEBonus();
+        if(dice[0] === dice[1]+1 && dice[0] === dice[2]+2 && dice[0] === dice[3]+3 && dice[0] === dice[4]+4){
+            score = 40;
+        };
+        return(score);
+    };
+    
+    var yahtzee = function(){
+        var score = 0;
+        SortDice();
+        if(dice[0] === dice[1] && dice[0] === dice[2] && dice[0] === dice[3] && dice[0] === dice[4]){
+            score = 50;
+            IsThereAlreadyAYahtzee++
+        };
+        return(score);
+    };
+    
+    var chance = function(){
+        SortDice();
+        YAHTZEEBonus();
+        var score = diceSum();
+        return(score);
+    };
         
 //This is the click function for the score card. Will eventually need a round counter so that after 13 rounds it will ask to reset the game.
     $("#next-round").click(function(){
@@ -207,7 +286,7 @@ $(document).ready(function(){
             score[i] = $("#" + scoreID[i]).val();
             return ( scoreID !== "score-12" );
         });
-
+        console.log(largeStraight());
 //Resets dice array for a new round, removes "keeps"
         dice = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
 
