@@ -291,6 +291,7 @@ $(document).ready(function(){
         return(score);
     };
     
+    
     var yahtzee = function(){
         var score = 0;
         SortDice();
@@ -308,10 +309,75 @@ $(document).ready(function(){
         return(score);
     };
         
+    $("#score-0").click(function(){
+        score[0] = upperSection(1);
+        $("#score-0").text(score[0]);
+        
+    });
+    
+    $("#score-1").click(function(){
+        score[1] = upperSection(2);
+        $("#score-1").text(score[1]);
+    });
+    
+    $("#score-2").click(function(){
+        score[2] = upperSection(3);
+        $("#score-2").text(score[2]);
+    });
+    
+    $("#score-3").click(function(){
+        score[3] = upperSection(4);
+        $("#score-3").text(score[3]);
+    });
+    
+    $("#score-4").click(function(){
+        score[4] = upperSection(5);
+        $("#score-4").text(score[4]);
+    });
+    
+    $("#score-5").click(function(){
+        score[5] = upperSection(6);
+        $("#score-5").text(score[5]);
+    });
+    
+    $("#score-6").click(function(){
+        score[6] = threeOfAKind();
+        $("#score-6").text(score[6]);
+    });
+    
+    $("#score-7").click(function(){
+        score[7] = fourOfAKind();
+        $("#score-7").text(score[7]);
+    });
+    
+    $("#score-8").click(function(){
+        score[8] = fullHouse()
+        $("#score-8").text(score[8]);
+    });
+    
+    $("#score-9").click(function(){
+        score[9] = smallStraight();
+        $("#score-9").text(score[9]);
+    });
+    
+    $("#score-10").click(function(){
+        score[10] = largeStraight();
+        $("#score-10").text(score[10]);
+    });
+    
+    $("#score-11").click(function(){
+        score[11] = yahtzee();
+        $("#score-11").text(score[11]);
+    });
+    
+    $("#score-12").click(function(){
+        score[12] = chance();
+        $("#score-12").text(score[12]);
+    });
+    
 //This is the click function for the score card. Will eventually need a round counter so that after 13 rounds it will ask to reset the game.
     $("#next-round").click(function(){
         
-        console.log(smallStraight());
 //Resets dice array for a new round, removes "keeps"
         dice = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
 
