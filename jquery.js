@@ -251,6 +251,36 @@ $(document).ready(function(){
         return(score);
     };
     
+    var isSmallStraight = function(testArray){
+        var smallStraights = {
+            one: [1, 2, 3, 4],
+            two: [2, 3, 4, 5],
+            three: [3, 4, 5, 6]
+        };
+        var isOne = false;
+        for(var property in smallStraights){
+            var small = smallStraights[property];
+            isOne = (testArray.indexOf(small[0])) > 0 &&
+                    (testArray.indexOf(small[1])) > 0 &&
+                    (testArray.indexOf(small[2])) > 0 &&
+                    (testArray.indexOf(small[3]));
+            if(isOne){
+                break;
+            }
+        }
+        return isOne;
+    };
+    
+    var smallStraight = function(){
+        var score = 0;
+        SortDice();
+        YAHTZEEBonus();
+        if (isSmallStraight(dice)){
+            score += 30;
+        }
+        return score;
+    };
+    
     var largeStraight = function(){
         var score = 0;
         SortDice();
@@ -281,12 +311,7 @@ $(document).ready(function(){
 //This is the click function for the score card. Will eventually need a round counter so that after 13 rounds it will ask to reset the game.
     $("#next-round").click(function(){
         
-//This takes the imput and stores it in our array. This should become obsolete upon score-check installation!   
-        jQuery.each( score, function( i, val ) {
-            score[i] = $("#" + scoreID[i]).val();
-            return ( scoreID !== "score-12" );
-        });
-        console.log(largeStraight());
+        console.log(smallStraight());
 //Resets dice array for a new round, removes "keeps"
         dice = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
 

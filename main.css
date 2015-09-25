@@ -7,8 +7,18 @@
     padding-left: 0.5em;
 }
 
+.score-sheet {
+    height: 40px;
+    width: 120px;
+    border: 1px solid black;
+    font-size: 1em;
+}
+
 
 .in-line {
      display: inline-block;
 }
 
+ul {
+    list-style-type: none;
+}
