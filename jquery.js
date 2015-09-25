@@ -96,6 +96,28 @@ $(document).ready(function(){
         }
     };
     
+    var upperBonusCheck = function(){
+        var upperScores = 0;
+        score[13] += 1
+        $.each(score, function(i, val){
+            upperScores += score[i];
+            return (i !== 5);
+        });
+        if (upperScores >= 63){
+            score[13] += 35;
+        };
+        return(upperScores);
+    };
+    
+    var scoreTotal = function(){
+        finalScore = 0;
+        $.each(score, function(i, val){
+            finalScore += score[i];
+            return (i !== 13);
+        });
+        return(finalScore);
+    };
+    
 // 3. Dice Roll Mechanics    
     
 
@@ -406,7 +428,7 @@ $(document).ready(function(){
         score[scoreArrayHolder] = tempScoreHolder;
         
 //Resets score display at end of round, removes extra clicks.
-        jQuery.each( scoreID, function( i, val ) {
+        $.each( scoreID, function( i, val ) {
             if(score[i] >= 0){
                 $("#" + scoreID[i]).text(score[i]);
             }
@@ -416,28 +438,34 @@ $(document).ready(function(){
             
             return ( scoreID !== "score-13" );
         });
-        
-//Resets dice array for a new round, removes "keeps"
-        dice = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
 
-//Resets dice display for a new round. I wish there was a way to re-write this so that I could use diceOutput for DRYness.
-        jQuery.each( diceID, function( i, val ) {
-            $("#" + diceID[i]).text(" ");
-
-            return ( diceID !== "dice-9" );
-        });
-
-//Resets roll limit and roll buttons so they can be clicked in the new round
-        rollLimit = 1;
-        $("#roll").text("Roll");
-        $("#roll-all").text("Roll all");
-        
 //This keeps track of the round limits and ends the game when it is time.
         roundTotal++;
-        if (roundTotal >= 13){
-            alert ("Thanks for playing!")
-//Code for total output goes here!!!
+        if (roundTotal < 13){
+
+//Resets dice array for a new round, removes "keeps"
+            dice = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
+
+//Resets dice display for a new round. I wish there was a way to re-write this so that I could use diceOutput for DRYness.
+            $.each( diceID, function( i, val ) {
+                $("#" + diceID[i]).text(" ");
+
+                return ( diceID !== "dice-9" );
+            });
+
+//Resets roll limit and roll buttons so they can be clicked in the new round
+            rollLimit = 1;
+            $("#roll").text("Roll");
+            $("#roll-all").text("Roll all");
         }
+        else {
+            $("#subtotal").text(upperBonusCheck());
+            $("#total").text(scoreTotal());
+            $.each( scoreID, function( i, val ) {
+                $("#" + scoreID[i]).text(score[i]);
+                return ( scoreID !== "score-13" );
+            });
+        };
     });
     
 });
