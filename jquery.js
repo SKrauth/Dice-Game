@@ -18,7 +18,7 @@ $(document).ready(function(){
     var diceID = ["dice-0", "dice-1", "dice-2", "dice-3", "dice-4", "dice-5", "dice-6", "dice-7", "dice-8", "dice-9"];
     
 //Holds scores as they are input.
-    var score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var score = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];
     
 //Holds the score id's, for score placement.
     var scoreID =["score-0", "score-1", "score-2", "score-3", "score-4", "score-5", "score-6", "score-7", "score-8", "score-9", "score-10", "score-11", "score-12", "score-13"];
@@ -30,6 +30,8 @@ $(document).ready(function(){
 //Boolean value for Yahtzee bonus
     var IsThereAlreadyAYahtzee = 0;
     
+    var scoreArrayHolder = 0;
+    var tempScoreHolder = 0;
     
 // 2. Global Functions
     
@@ -275,8 +277,17 @@ $(document).ready(function(){
         var score = 0;
         SortDice();
         YAHTZEEBonus();
-        if (isSmallStraight(dice)){
-            score += 30;
+        if (dice[0] === dice[1]+1 && dice[0] === dice[2]+2 && dice[0] === dice[3]+3){
+            score = 30;
+        }
+        else if (dice[1] === dice[2]+1 && dice[1] === dice[3]+2 && dice[1] === dice[4]+3){
+            score = 30;
+        }
+        else if (dice[0] === dice[1]+1 && dice[0] === dice[3]+2 && dice[0] === dice[4]+3){
+            score = 30;
+        }
+        else if (dice[0] === dice[1]+1 && dice[0] === dice[2]+2 && dice[0] === dice[4]+3){
+            score = 30;
         }
         return score;
     };
@@ -310,73 +321,101 @@ $(document).ready(function(){
     };
         
     $("#score-0").click(function(){
-        score[0] = upperSection(1);
-        $("#score-0").text(score[0]);
+        scoreArrayHolder = 0;
+        tempScoreHolder = upperSection(1);
+        $("#score-0").text(tempScoreHolder);
         
     });
     
     $("#score-1").click(function(){
-        score[1] = upperSection(2);
-        $("#score-1").text(score[1]);
+        scoreArrayHolder = 1;
+        tempScoreHolder = upperSection(2);
+        $("#score-1").text(tempScoreHolder);
     });
     
     $("#score-2").click(function(){
-        score[2] = upperSection(3);
-        $("#score-2").text(score[2]);
+        scoreArrayHolder = 2;
+        tempScoreHolder = upperSection(3);
+        $("#score-2").text(tempScoreHolder);
     });
     
     $("#score-3").click(function(){
-        score[3] = upperSection(4);
-        $("#score-3").text(score[3]);
+        scoreArrayHolder = 3;
+        tempScoreHolder = upperSection(4);
+        $("#score-3").text(tempScoreHolder);
     });
     
     $("#score-4").click(function(){
-        score[4] = upperSection(5);
-        $("#score-4").text(score[4]);
+        scoreArrayHolder = 4;
+        tempScoreHolder = upperSection(5);
+        $("#score-4").text(tempScoreHolder);
     });
     
     $("#score-5").click(function(){
-        score[5] = upperSection(6);
-        $("#score-5").text(score[5]);
+        scoreArrayHolder = 5;
+        tempScoreHolder = upperSection(6);
+        $("#score-5").text(tempScoreHolder);
     });
     
     $("#score-6").click(function(){
-        score[6] = threeOfAKind();
-        $("#score-6").text(score[6]);
+        scoreArrayHolder = 6;
+        tempScoreHolder = threeOfAKind();
+        $("#score-6").text(tempScoreHolder);
     });
     
     $("#score-7").click(function(){
-        score[7] = fourOfAKind();
-        $("#score-7").text(score[7]);
+        scoreArrayHolder = 7;
+        tempScoreHolder = fourOfAKind();
+        $("#score-7").text(tempScoreHolder);
     });
     
     $("#score-8").click(function(){
-        score[8] = fullHouse()
-        $("#score-8").text(score[8]);
+        scoreArrayHolder = 8;
+        tempScoreHolder = fullHouse()
+        $("#score-8").text(tempScoreHolder);
     });
     
     $("#score-9").click(function(){
-        score[9] = smallStraight();
-        $("#score-9").text(score[9]);
+        scoreArrayHolder = 9;
+        tempScoreHolder = smallStraight();
+        $("#score-9").text(tempScoreHolder);
     });
     
     $("#score-10").click(function(){
-        score[10] = largeStraight();
-        $("#score-10").text(score[10]);
+        scoreArrayHolder = 10;
+        tempScoreHolder = largeStraight();
+        $("#score-10").text(tempScoreHolder);
     });
     
     $("#score-11").click(function(){
-        score[11] = yahtzee();
-        $("#score-11").text(score[11]);
+        scoreArrayHolder = 11;
+        tempScoreHolder = yahtzee();
+        $("#score-11").text(tempScoreHolder);
     });
     
     $("#score-12").click(function(){
-        score[12] = chance();
-        $("#score-12").text(score[12]);
+        scoreArrayHolder = 12;
+        tempScoreHolder = chance();
+        $("#score-12").text(tempScoreHolder);
     });
     
 //This is the click function for the score card. Will eventually need a round counter so that after 13 rounds it will ask to reset the game.
     $("#next-round").click(function(){
+        
+//Takes temporary score and writes it to the array. This allows for mistake forgiveness.
+        score[scoreArrayHolder] = tempScoreHolder;
+        
+//Resets score display at end of round, removes extra clicks.
+        jQuery.each( scoreID, function( i, val ) {
+            if(score[i] >= 0){
+                $("#" + scoreID[i]).text(score[i]);
+            }
+            else {
+                $("#" + scoreID[i]).text(" ");
+            }
+            
+            return ( scoreID !== "score-13" );
+        });
         
 //Resets dice array for a new round, removes "keeps"
         dice = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
